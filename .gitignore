@@ -1,0 +1,4 @@
+bin
+los_logger.log
+*.env*
+archive
