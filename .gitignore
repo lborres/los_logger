@@ -1,4 +1,4 @@
 bin
 los_logger.log
-*.env*
+.env
 archive

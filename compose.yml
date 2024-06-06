@@ -1,0 +1,26 @@
+services:
+  api:
+    build:
+      context: .
+    restart: always  
+    environment:
+      LOSLOGGER_DB_USER: ${LOSLOGGER_DB_USER}
+      LOSLOGGER_DB_PASS: ${LOSLOGGER_DB_PASS}
+      ATLAS_HOST: ${ATLAS_HOST}
+      ATLAS_PORT: ${ATLAS_PORT}
+      LOSLOGGER_DB_NAME: ${LOSLOGGER_DB_NAME}
+      LOSLOGGER_DB_SCHEMA: ${LOSLOGGER_DB_SCHEMA}
+      LOSLOGGER_DB_SSLMODE: ${LOSLOGGER_DB_SSLMODE}
+      LOSLOGGER_DB_CONNTIMEOUT: ${LOSLOGGER_DB_CONNTIMEOUT}
+      LOSLOGGER_API_PORT: ${LOSLOGGER_API_PORT}
+      TZ: Asia/Manila
+    ports:
+      - ${LOSLOGGER_API_PORT}:${LOSLOGGER_API_PORT}
+    volumes:
+      - .:/app
+    networks:
+      - atlasnet
+      
+networks:
+  atlasnet:
+    external: true

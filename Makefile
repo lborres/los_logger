@@ -1,0 +1,5 @@
+build:
+	@go build -o bin/los_logger cmd/main.go
+
+dev:
+	@go run cmd/main.go
