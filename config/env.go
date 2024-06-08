@@ -21,6 +21,7 @@ type Config struct {
 	ServerPort             string
 	JWTSecret              string
 	JWTExpirationInSeconds int64
+	LogFileLoc             string
 	PGConfig               *PGConfig
 }
 
@@ -41,6 +42,7 @@ func InitConfig() Config {
 		ServerPort:             getEnvStr("LOSLOGGER_API_PORT", "9031"),
 		JWTSecret:              getEnvStr("LOSLOGGER_JWT_SECRET", ""),
 		JWTExpirationInSeconds: getEnvInt64("LOSLOGGER_JWT_EXPIRATION_IN_SECONDS", 3600*24*7),
+		LogFileLoc:             getEnvStr("LOGFILE", "/app/los_logger.log"),
 		PGConfig:               &pgconfig,
 	}
 }

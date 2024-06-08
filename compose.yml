@@ -2,7 +2,7 @@ services:
   api:
     build:
       context: .
-    restart: always  
+    restart: always
     environment:
       LOSLOGGER_DB_USER: ${LOSLOGGER_DB_USER}
       LOSLOGGER_DB_PASS: ${LOSLOGGER_DB_PASS}
