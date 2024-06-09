@@ -22,6 +22,7 @@ type Config struct {
 	JWTSecret              string
 	JWTExpirationInSeconds int64
 	LogFileLoc             string
+	WebBeacon              string
 	PGConfig               *PGConfig
 }
 
@@ -29,20 +30,21 @@ func InitConfig() Config {
 	pgconfig := PGConfig{
 		DBHost:        getEnvStr("ATLAS_HOST", "localhost"),
 		DBPort:        getEnvStr("ATLAS_PORT", "5436"),
-		DBUser:        getEnvStr("LOSLOGGER_DB_USER", ""),
-		DBPassword:    getEnvStr("LOSLOGGER_DB_PASS", ""),
-		DBName:        getEnvStr("LOSLOGGER_DB_NAME", "loslogger"),
-		DBSchema:      getEnvStr("LOSLOGGER_DB_SCHEMA", "loslogger"),
-		DBSSLMode:     getEnvStr("LOSLOGGER_DB_SSLMODE", "require"),
-		DBConnTimeout: getEnvInt64("LOSLOGGER_DB_CONNTIMEOUT", 0),
+		DBUser:        getEnvStr("LOSL_DB_USER", ""),
+		DBPassword:    getEnvStr("LOSL_DB_PASS", ""),
+		DBName:        getEnvStr("LOSL_DB_NAME", "loslogger"),
+		DBSchema:      getEnvStr("LOSL_DB_SCHEMA", "loslogger"),
+		DBSSLMode:     getEnvStr("LOSL_DB_SSLMODE", "require"),
+		DBConnTimeout: getEnvInt64("LOSL_DB_CONNTIMEOUT", 0),
 	}
 
 	return Config{
-		PublicHost:             getEnvStr("LOSLOGGER_PUBLIC_HOST", ""),
-		ServerPort:             getEnvStr("LOSLOGGER_API_PORT", "9031"),
-		JWTSecret:              getEnvStr("LOSLOGGER_JWT_SECRET", ""),
-		JWTExpirationInSeconds: getEnvInt64("LOSLOGGER_JWT_EXPIRATION_IN_SECONDS", 3600*24*7),
-		LogFileLoc:             getEnvStr("LOGFILE", "/app/los_logger.log"),
+		PublicHost:             getEnvStr("LOSL_PUBLIC_HOST", ""),
+		ServerPort:             getEnvStr("LOSL_API_PORT", "9031"),
+		JWTSecret:              getEnvStr("LOSL_JWT_SECRET", ""),
+		JWTExpirationInSeconds: getEnvInt64("LOSL_JWT_EXPIRATION_IN_SECONDS", 3600*24*7),
+		LogFileLoc:             getEnvStr("LOSL_LOGFILE", "/app/los_logger.log"),
+		WebBeacon:              getEnvStr("LOSL_WBEACON", ""),
 		PGConfig:               &pgconfig,
 	}
 }
