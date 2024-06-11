@@ -6,7 +6,7 @@ import (
 
 	_ "github.com/lib/pq"
 
-	"github.com/lborres/los_logger/config"
+	"github.com/lborres/los_logger/internal/config"
 )
 
 func InitDB(cfg config.PGConfig) (*sql.DB, error) {

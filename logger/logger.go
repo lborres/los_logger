@@ -1,16 +1,67 @@
 package logger
 
 import (
+	"database/sql"
+	"fmt"
 	"log"
 	"math/rand"
+	"net"
 	"time"
 )
 
-func checkService() {
-	log.Println("Checking Service")
+type Status struct {
+	connected      bool
+	lastDisconnect time.Time
+	duration       time.Duration
 }
 
-func InitLogger(chExit <-chan struct{}, logfile string) {
+func (status *Status) writeLog(msg string) {
+	// Store data in DB
+
+	// Log message
+	log.Println(msg)
+
+	// ? How do I write to log file?
+}
+
+// TODO Check if Machine is connected to router
+// func pingLocal() {
+// }
+
+func pingWeb() bool {
+	// TODO Save address to ENV Var
+	conn, err := net.DialTimeout("tcp", "8.8.8.8:53", 5*time.Second)
+	if err != nil {
+		return false
+	}
+	conn.Close()
+	return true
+}
+
+func (status *Status) checkService() {
+	if pingWeb() {
+		if !status.connected {
+			status.duration = time.Since(status.lastDisconnect)
+			msg := fmt.Sprintf("Connection restored after %s", status.duration)
+			status.writeLog(msg)
+			status.connected = true
+		}
+	} else {
+		if status.connected {
+			status.lastDisconnect = time.Now()
+			status.writeLog("Internet Service Interruption")
+			status.connected = false
+		}
+	}
+}
+
+func StartLogger(chExit <-chan struct{}, db *sql.DB) {
+	status := Status{
+		connected: true,
+	}
+
+	NewStorage(db)
+
 	for {
 		select {
 		case <-chExit:
@@ -18,11 +69,10 @@ func InitLogger(chExit <-chan struct{}, logfile string) {
 			return
 
 		default:
-			r := rand.Intn(2500) + 4500
+			r := rand.Intn(3000) + 4000
 
-			checkService()
+			status.checkService()
 
-			log.Printf("Sleep Duration is %dms\n", r)
 			time.Sleep(time.Duration(r) * time.Millisecond)
 		}
 	}

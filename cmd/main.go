@@ -6,8 +6,8 @@ import (
 	"log"
 
 	"github.com/lborres/los_logger/api"
-	"github.com/lborres/los_logger/config"
-	"github.com/lborres/los_logger/db"
+	"github.com/lborres/los_logger/internal/config"
+	"github.com/lborres/los_logger/internal/db"
 	"github.com/lborres/los_logger/logger"
 )
 
@@ -22,7 +22,7 @@ func run(_ context.Context, cfg config.Config) error {
 		log.Fatal(err)
 	}
 
-	go logger.InitLogger(chExit, cfg.LogFileLoc)
+	go logger.StartLogger(chExit, db)
 
 	if err := api.StartAPIServer(addr, db); err != nil {
 		log.Fatal(err)
