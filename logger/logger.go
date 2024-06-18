@@ -22,6 +22,16 @@ func (status *Status) writeLog(msg string) {
 	log.Println(msg)
 
 	// ? How do I write to log file?
+	// logFile, err := os.OpenFile(logFileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	// if err!= nil {
+	// 	log.Fatalf("Failed to open log file: %v", err)
+	// }
+	// defer logFile.Close()
+	// Create a new logger instance with io.MultiWriter
+	// logger := log.New(io.MultiWriter(logFile, os.Stdout), "", log.LstdFlags|log.Lshortfile)
+
+	// // Use the logger
+	// logger.Println("This message goes to both the log file and stdout.")
 }
 
 // TODO Check if Machine is connected to router

@@ -3,9 +3,9 @@ package api
 import (
 	"database/sql"
 	"log"
-	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"github.com/lborres/los_logger/service/dashboard"
 )
 
 type APIServer struct {
@@ -28,9 +28,14 @@ func StartAPIServer(addr string, db *sql.DB) error {
 
 func (server *APIServer) initRoutes() error {
 	e := echo.New()
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
+
+	log.Println("Initializing Server Routes")
+
+	dashboardStorage := dashboard.NewStorage(server.db)
+	dashboardHandler := dashboard.NewHandler(dashboardStorage)
+	dashboardHandler.RegisterRoutes(e)
+
+	log.Printf("HTTP Server listening at %s\n", server.addr)
 
 	return e.Start(server.addr)
 }
