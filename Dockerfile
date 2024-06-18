@@ -9,7 +9,6 @@ COPY . .
 
 ENV GOOS=linux CGO_ENABLED=0
 
-
 RUN go build -o /loslogger ./cmd/main.go
 
 EXPOSE ${LOSLOGGER_API_PORT}
