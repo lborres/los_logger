@@ -2,38 +2,30 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 
-	"github.com/lborres/los_logger/api"
 	"github.com/lborres/los_logger/internal/config"
 	"github.com/lborres/los_logger/internal/db"
 	"github.com/lborres/los_logger/logger"
 )
 
 func run(_ context.Context, cfg config.Config) error {
-	addr := fmt.Sprintf("%s:%s", cfg.PublicHost, cfg.ServerPort)
+	logWriter := logger.InitLogWriter(cfg.LogFileLoc)
+	defer logWriter.CloseWriter()
 
-	chExit := make(chan struct{})
-	defer close(chExit)
+	log.Println("Starting LOS Logger")
 
 	db, err := db.InitDB(*cfg.PGConfig)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	go logger.StartLogger(chExit, db)
-
-	if err := api.StartAPIServer(addr, db); err != nil {
-		log.Fatal(err)
-	}
+	logger.StartLOSLogger(db)
 
 	return nil
 }
 
 func main() {
-	log.SetFlags(log.Ldate | log.Lmicroseconds)
-	log.Println("Starting LOS Logger")
 	ctx := context.Background()
 	if err := run(ctx, config.InitConfig()); err != nil {
 		log.Fatal(err)

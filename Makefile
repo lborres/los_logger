@@ -4,8 +4,5 @@
 dev:
 	@go run cmd/main.go
 
-gen:
-	@templ generate
-
-build: gen
+build:
 	@docker compose up --build -d

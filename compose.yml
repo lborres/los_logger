@@ -12,12 +12,9 @@ services:
       LOSL_DB_SCHEMA: ${LOSL_DB_SCHEMA}
       LOSL_DB_SSLMODE: ${LOSL_DB_SSLMODE}
       LOSL_DB_CONNTIMEOUT: ${LOSL_DB_CONNTIMEOUT}
-      LOSL_API_PORT: ${LOSL_API_PORT}
-      LOSL_LOGFILE: ${LOSL_LOGFILE}
+      LOSL_LOGFILELOC: ${LOSL_LOGFILELOC}
       LOSL_WBEACON: ${LOSL_WBEACON}
       TZ: Asia/Manila
-    ports:
-      - ${LOSL_API_PORT}:${LOSL_API_PORT}
     volumes:
       - .:/app
     networks:

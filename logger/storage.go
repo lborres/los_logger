@@ -18,12 +18,5 @@ func (s *Storage) StoreStatus() error {
 	// 	return err
 	// }
 
-	/*
-		LOS Log Storage Model
-		ID - Do I even need this? - I was thinking of adding a way to add comment via ui
-		TIMESTAMP
-		ISCONNECTED (TRUE/FALSE)
-	*/
-
 	return nil
 }
