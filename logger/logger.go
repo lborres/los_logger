@@ -24,7 +24,7 @@ func (status *Status) writeLog(msg string) {
 	// ? How do I write to log file?
 	// logFile, err := os.OpenFile(logFileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	// if err!= nil {
-	// 	log.Fatalf("Failed to open log file: %v", err)
+	// 	log.Fatalf("Failed to open log file: %v\n", err)
 	// }
 	// defer logFile.Close()
 	// Create a new logger instance with io.MultiWriter
@@ -75,7 +75,7 @@ func StartLogger(chExit <-chan struct{}, db *sql.DB) {
 	for {
 		select {
 		case <-chExit:
-			log.Println("Logger Shutting Down")
+			log.Println("Shutting Down Logger")
 			return
 
 		default:

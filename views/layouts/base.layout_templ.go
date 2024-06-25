@@ -36,7 +36,7 @@ func Base(title string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</title><script src=\"/static/js/htmx.min.js\"></script><script src=\"/static/js/hx-sse.js\"></script><script src=\"/static/js/tailwindcss.js\"></script><script src=\"/static/js/alpine.min.js\"></script></head><body><main>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</title><script src=\"/static/js/htmx.min.js\"></script><script src=\"/static/js/hx-sse.js\"></script><script src=\"/static/js/tailwindcss.js\"></script><script src=\"/static/js/alpine.min.js\"></script></head><body class=\"bg-gray-700 h-screen\"><main>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -21,7 +21,7 @@ func (h *Handler) RegisterRoutes(e *echo.Echo) {
 }
 
 func (h *Handler) handleHome(c echo.Context) error {
-	return renderView(c, dashboard_views.HomeIndex("Home", dashboard_views.Home()))
+	return renderView(c, dashboard_views.HomeIndex("LOS Logger | Home", dashboard_views.Home()))
 }
 
 func renderView(c echo.Context, cmp templ.Component) error {
