@@ -6,6 +6,3 @@ dev:
 
 build:
 	@docker compose up --build -d
-
-gen:
-	@templ generate

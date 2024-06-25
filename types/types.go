@@ -1,5 +1,3 @@
 package types
 
-type DashboardStorage interface{}
-
-type LoggerStorage interface{}
+// Define Status DB model

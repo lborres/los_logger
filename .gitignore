@@ -1,4 +1,5 @@
 bin
 los_logger.log
+los_logger.log.bkp
 .env
 archive

@@ -15,25 +15,6 @@ type Status struct {
 	duration       time.Duration
 }
 
-func (status *Status) writeLog(msg string) {
-	// Store data in DB
-
-	// Log message
-	log.Println(msg)
-
-	// ? How do I write to log file?
-	// logFile, err := os.OpenFile(logFileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	// if err!= nil {
-	// 	log.Fatalf("Failed to open log file: %v", err)
-	// }
-	// defer logFile.Close()
-	// Create a new logger instance with io.MultiWriter
-	// logger := log.New(io.MultiWriter(logFile, os.Stdout), "", log.LstdFlags|log.Lshortfile)
-
-	// // Use the logger
-	// logger.Println("This message goes to both the log file and stdout.")
-}
-
 // TODO Check if Machine is connected to router
 // func pingLocal() {
 // }
@@ -52,20 +33,24 @@ func (status *Status) checkService() {
 	if pingWeb() {
 		if !status.connected {
 			status.duration = time.Since(status.lastDisconnect)
+
 			msg := fmt.Sprintf("Connection restored after %s", status.duration)
-			status.writeLog(msg)
+			log.Println(msg)
+
 			status.connected = true
 		}
 	} else {
 		if status.connected {
 			status.lastDisconnect = time.Now()
-			status.writeLog("Internet Service Interruption")
+
+			log.Println("Internet Service Interruption")
+
 			status.connected = false
 		}
 	}
 }
 
-func StartLogger(chExit <-chan struct{}, db *sql.DB) {
+func StartLOSLogger(db *sql.DB) {
 	status := Status{
 		connected: true,
 	}
@@ -73,17 +58,12 @@ func StartLogger(chExit <-chan struct{}, db *sql.DB) {
 	NewStorage(db)
 
 	for {
-		select {
-		case <-chExit:
-			log.Println("Logger Shutting Down")
-			return
+		r := rand.Intn(3000) + 4000
 
-		default:
-			r := rand.Intn(3000) + 4000
+		status.checkService()
 
-			status.checkService()
+		time.Sleep(time.Duration(r) * time.Millisecond)
 
-			time.Sleep(time.Duration(r) * time.Millisecond)
-		}
 	}
+
 }
