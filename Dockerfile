@@ -1,16 +1,20 @@
-FROM golang:1.22-alpine
+FROM rust:1.83-alpine AS build
+
+# Install necessary build dependencies for Rust
+RUN apk add --no-cache build-base musl-dev openssl-dev pkgconfig
 
 WORKDIR /app
-COPY go.mod go.sum ./
-
-RUN go mod download
 
 COPY . .
 
-ENV GOOS=linux CGO_ENABLED=0
+RUN cargo build --release
 
-RUN go build -o /loslogger ./cmd/main.go
+FROM alpine:latest AS runner
 
-EXPOSE ${LOSLOGGER_API_PORT}
+RUN apk add --no-cache ca-certificates
 
-CMD ["/loslogger"]
+WORKDIR /app
+
+COPY --from=build /app/target/release/los_logger .
+
+CMD ["/los_logger"]

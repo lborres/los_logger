@@ -4,19 +4,14 @@ services:
       context: .
     restart: always
     environment:
-      LOSL_DB_USER: ${LOSL_DB_USER}
-      LOSL_DB_PASS: ${LOSL_DB_PASS}
-      ATLAS_HOST: ${ATLAS_HOST}
-      ATLAS_PORT: ${ATLAS_PORT}
-      LOSL_DB_NAME: ${LOSL_DB_NAME}
-      LOSL_DB_SCHEMA: ${LOSL_DB_SCHEMA}
-      LOSL_DB_SSLMODE: ${LOSL_DB_SSLMODE}
-      LOSL_DB_CONNTIMEOUT: ${LOSL_DB_CONNTIMEOUT}
-      LOSL_LOGFILELOC: ${LOSL_LOGFILELOC}
-      LOSL_WBEACON: ${LOSL_WBEACON}
+      LOG_LEVEL: ${LOG_LEVEL}
+      LOG_DIR: ${LOG_DIR}
+      LOG_FILE_NAME: ${LOG_FILE_NAME}
+      LOG_FILE_LOC: ${LOG_FILE_LOC}
+      BEACON_TARGET: ${BEACON_TARGET}
       TZ: Asia/Manila
     volumes:
-      - .:/app
+      - ${LOG_DIR}:/${LOG_DIR}
     networks:
       - atlasnet
       
