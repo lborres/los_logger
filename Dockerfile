@@ -27,13 +27,15 @@ RUN addgroup -g ${GROUP_ID} ${USERNAME} \
 
 # Set working directory and switch to non-root user
 WORKDIR /app
-USER ${USERNAME}
 
 # Create necessary directories
-RUN mkdir -p ./logs/los
+RUN mkdir -p ./logs/los \
+  && chown -R ${USER_ID}:${GROUP_ID} /app
 
 # Copy the built binary
 COPY --from=build /app/target/release/los_logger .
+
+USER ${USERNAME}
 
 # Run the application
 CMD ["./los_logger"]

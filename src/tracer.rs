@@ -1,13 +1,12 @@
 use std::fs::OpenOptions;
 
-use chrono::Local;
 use crate::{env::Env, time::CustomTimer};
 use tracing::{level_filters::LevelFilter, Level};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt, Layer};
 
 pub fn init(env: &Env) -> tracing_appender::non_blocking::WorkerGuard {
-    let file_timestamp = Local::now().format("%y%m%d").to_string();
-    let filename = format!("{}{}_{}", &env.log_dir, file_timestamp, &env.log_file_name);
+    // WARN: This requires env var 'log_dir' to include trailing /
+    let filename = format!("{}{}", &env.log_dir, &env.log_file_name);
     let log_file = OpenOptions::new()
         .create(true)
         .append(true)

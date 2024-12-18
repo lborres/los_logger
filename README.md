@@ -24,6 +24,9 @@ docer run -d \
   --env-file /path/to/.env
   --name los-logger
   los-logger:v<valid semantic version>
+
+# v2.0 example
+docker run -d --user 1000:1000 -v /host/path/to/logs:/logs --env-file /path/to/.env --name los-logger los-logger:v2.0.1
 ```
 
 ## Rust Rewrite
