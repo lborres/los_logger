@@ -1,16 +1,39 @@
-FROM golang:1.22-alpine
+FROM rust:1.83-alpine AS build
 
+# Install necessary build dependencies for Rust
+RUN apk add --no-cache build-base musl-dev openssl-dev pkgconfig tzdata
+
+# Set the working directory
 WORKDIR /app
-COPY go.mod go.sum ./
 
-RUN go mod download
-
+# Copy source code and build
 COPY . .
+RUN cargo build --release
 
-ENV GOOS=linux CGO_ENABLED=0
+# Final image
+FROM alpine:latest AS runner
 
-RUN go build -o /loslogger ./cmd/main.go
+# Install runtime dependencies and timezone data
+ENV TZ=Asia/Manila
+RUN apk add --no-cache ca-certificates tzdata
 
-EXPOSE ${LOSLOGGER_API_PORT}
+# Create a non-root user
+ARG USERNAME=appuser
+ARG USER_ID=1000
+ARG GROUP_ID=1000
 
-CMD ["/loslogger"]
+RUN addgroup -g ${GROUP_ID} ${USERNAME} \
+    && adduser -D -u ${USER_ID} -G ${USERNAME} ${USERNAME}
+
+# Set working directory and switch to non-root user
+WORKDIR /app
+USER ${USERNAME}
+
+# Create necessary directories
+RUN mkdir -p ./logs/los
+
+# Copy the built binary
+COPY --from=build /app/target/release/los_logger .
+
+# Run the application
+CMD ["./los_logger"]

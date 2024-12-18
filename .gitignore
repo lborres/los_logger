@@ -3,3 +3,8 @@ los_logger.log
 los_logger.log.bkp
 .env
 archive
+tmp_log.log
+.logs
+
+# Added by cargo
+/target
